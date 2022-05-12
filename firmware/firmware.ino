@@ -87,7 +87,7 @@ void setup() {
   outputServo.write(0);
   delay(1000);
   while (true) {
-    if (analogRead(stickThrottle) >= 720 && digitalRead(pSwitch1) == 1) {
+    if (analogRead(stickThrottle) <= 475 && digitalRead(pSwitch1) == 1) {
       break;
     }
     //      Serial.println(digitalRead(pSwitch1));
@@ -209,6 +209,7 @@ void loop() {
   rawDuty = setLimit(rawDuty, 0, 180);
   outputServo.write(rawDuty);
 
+  //writeData(velocity, currentDuty, voltSense * 100, solarMode, isEnabled, finalCurrent * 100); 
 
   dataCounter += 1;
   if (dataCounter >= 5){
@@ -224,7 +225,7 @@ void loop() {
   //}
   //Serial.println(velocity);
 
-  //Serial.println(finalCurrent);
+  //Serial.println(finalCurrent);*/
 }
 
 
@@ -382,7 +383,7 @@ void updateInputs() {
 
 void readThrottle() {
   if (digitalRead(pSwitch1) == LOW) { //setVelocity
-    velocity = map(analogRead(stickThrottle), 720, 475, 0, 100);
+    velocity = map(analogRead(stickThrottle), 475, 720, 0, 100);
     velocity = setLimit(velocity, 0, 100);
 
   }
