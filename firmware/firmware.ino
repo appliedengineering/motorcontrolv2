@@ -217,7 +217,7 @@ void loop() {
     dataCounter = 0;
     //writeData(velocity, currentDuty, 24 * 100, voltSense * 100, underVolt, solarMode, isEnabled, finalCurrent * 100); // remove chip temp and undervolt
     // TP, DP, BV, solarMode, isEnabled, BC
-    writeData(velocity, currentDuty, voltSense * 100, solarMode, isEnabled, finalCurrent * 100); 
+    writeData(velocity, rawDuty, voltSense * 100, solarMode, isEnabled, finalCurrent * 100); 
   }
   //for(int i = 0; i< 100; i++){
   //  writeData(i,i,24,i, i, i, i, i);
@@ -377,13 +377,13 @@ void updateInputs() {
   }
 
   currentLimit = map(analogRead(pot1),50,1000,2,100);
-  currentLimit = setLimit(currentLimit,2,200);
+  currentLimit = setLimit(currentLimit,2,20);
 
 }
 
 void readThrottle() {
   if (digitalRead(pSwitch1) == LOW) { //setVelocity
-    velocity = map(analogRead(stickThrottle), 475, 720, 0, 100);
+    velocity = map(analogRead(stickThrottle), 485, 725, 0, 100);
     velocity = setLimit(velocity, 0, 100);
 
   }
