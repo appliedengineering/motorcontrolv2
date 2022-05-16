@@ -19,7 +19,6 @@
 #define Direction 11
 #define MasterOn 10
 #define Motor 12
-
 #define voltMeter A7
 #define ampMeter A6
 
@@ -104,12 +103,12 @@ void loop() {
   if (currentDuty == 0) {
     updateInputs();
   }
-  voltSense = analogRead(voltMeter) / 25.1 ;
+  voltSense = analogRead(voltMeter) / 23.18 ;
   ampSense = 0;
   for (int i = 0; i < 300; i++) {
     ampSense += analogRead(ampMeter);
   }
-  finalCurrent = double(ampSense) / 40 ;
+  finalCurrent = double(ampSense) / 4 ;
 
   digitalWrite(Direction, changeDirection);
 
@@ -126,11 +125,11 @@ void loop() {
   if (solarMode != 1) {
     delay(20);
     if (velocity > currentDuty) {
-      if (finalCurrent <= currentLimit) {
+      if (finalCurrent <= 16) {
         currentDuty += 1;
         //delay(15);
       }
-      if (finalCurrent >= (currentLimit + 1)) {
+      if (finalCurrent >= 17) {
 
         currentDuty -= 1;
         delay(15);
@@ -146,7 +145,7 @@ void loop() {
     if (velocity >= 20) {
       if (voltSense < vmpp) {
         for (int i = 0; i < 3; i++) {
-          voltSense = (float(analogRead(voltMeter)) / 25.1);
+          voltSense = (float(analogRead(voltMeter)) / 23.18);
           if (voltSense >= vmpp) {
             break;
           }
@@ -161,7 +160,7 @@ void loop() {
       if (voltSense > vmpp) {
 
         for (int i = 0; i < 3; i++) {
-          voltSense = (float(analogRead(voltMeter)) / 25.1);
+          voltSense = (float(analogRead(voltMeter)) / 23.18);
           if (voltSense <= vmpp) {
             break;
           }
@@ -383,7 +382,7 @@ void updateInputs() {
 
 void readThrottle() {
   if (digitalRead(pSwitch1) == LOW) { //setVelocity
-    velocity = map(analogRead(stickThrottle), 485, 725, 0, 100);
+    velocity = map(analogRead(stickThrottle), 485, 725, 0, 50);
     velocity = setLimit(velocity, 0, 100);
 
   }
